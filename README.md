@@ -124,5 +124,3 @@ I was the **AI developer responsible for the whole project**. I worked with the 
 | DevOps | Docker, Docker Compose, Nginx, Let's Encrypt, GitHub Actions |
 
 ---
-
-*Built by [Mahdi Bel Haj Said](https://github.com/Mahdi-Bel-Haj-Said). Happy to walk through the design in an interview.*
