@@ -15,8 +15,6 @@
 
 ---
 
-## TL;DR
-
 SCP's finance, logistics and import/export teams processed **hundreds of PDF business documents every week**: supplier invoices, customs declarations, export invoices, packing lists, delivery notes and more. Each one was **typed into Excel by hand**.
 
 I designed, built and deployed a 3-tier platform with two products:
@@ -32,38 +30,6 @@ A chatbot built on the **OpenAI API + ChromaDB** that answers from **company doc
 
 ### Deployment
 The full stack (**React frontend, FastAPI backend, PostgreSQL database**) is deployed on **AWS** with a 3-tier **VPC** (public / private app / private data subnets), **EC2**, **S3** for documents and backups, and least-privilege **IAM** roles.
-
----
-
-## Architecture at a glance
-
-```mermaid
-flowchart TB
-    U[Employees<br/>browser] -->|HTTPS| WEB
-
-    subgraph AWS["AWS · VPC 10.0.0.0/16 · eu-west-3"]
-        subgraph PUB["Public subnet"]
-            WEB[Web tier · EC2<br/>Nginx + React build<br/>TLS, reverse proxy]
-            NAT[NAT Gateway]
-        end
-        subgraph APP["Private app subnet"]
-            API[App tier · EC2<br/>FastAPI · Celery workers<br/>Tesseract · OpenCV · ChromaDB · Redis]
-        end
-        subgraph DATA["Private data subnet"]
-            DB[(Data tier · EC2<br/>PostgreSQL 15)]
-        end
-        S3[(S3<br/>PDFs · Excel outputs · backups)]
-        EP[S3 gateway endpoint]
-    end
-
-    OAI[OpenAI API]
-
-    WEB -->|/api| API
-    API --> DB
-    API --> EP --> S3
-    DB -->|nightly pg_dump| EP
-    API -->|outbound only| NAT --> OAI
-```
 
 ---
 
